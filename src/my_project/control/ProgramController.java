@@ -2,6 +2,7 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import my_project.model.KnebiParser;
+import my_project.model.Playground;
 import my_project.view.MainGUI;
 
 import java.awt.event.MouseEvent;
@@ -17,7 +18,10 @@ public class ProgramController {
 
     // Referenzen
     private ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
+    private OutputController outputController;
     private KnebiParser knebiParser;
+    private Playground playground;
+    private boolean test;
 
     /**
      * Konstruktor
@@ -34,13 +38,18 @@ public class ProgramController {
      * Diese Methode wird genau ein mal nach Programmstart aufgerufen. Achtung: funktioniert nicht im Szenario-Modus
      */
     public void startProgram() {
-        viewController.getDrawFrame().setSize(600,320);
-        viewController.getDrawFrame().setContentPane(new MainGUI(this).getMainPanel());
+        //viewController.getDrawFrame().setSize(600,320);
+        //viewController.getDrawFrame().setContentPane(new MainGUI(this).getMainPanel());
         viewController.getSoundController().loadSound("assets/yesyesyes.mp3","yes",false);
         viewController.getSoundController().loadSound("assets/nonono.mp3","no",false);
         knebiParser = new KnebiParser();
         // todo Eigener Code
-
+        test=true;
+        playground=new Playground();
+        viewController.draw(playground);
+        viewController.register(playground);
+        this.outputController= new OutputController(viewController);
+        viewController.showScene(0);
 
     }
 
@@ -102,7 +111,16 @@ public class ProgramController {
      * @param e das Objekt enthält alle Informationen zum Klick
      */
     public void mouseClicked(MouseEvent e){
-
+        if(test) {
+            if (e.getX() < 300) {
+                outputController.test(true);
+            } else {
+                outputController.test(false);
+            }
+            test=false;
+        }else{
+            test=true;
+        }
     }
 
     public void playYes(){

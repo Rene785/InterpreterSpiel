@@ -2,10 +2,7 @@ package KAGO_framework.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -133,6 +130,11 @@ public class DrawTool {
     public void drawFilledCircle(double x, double y, double radius){
         Ellipse2D.Double e = new Ellipse2D.Double(x-radius,y-radius,radius*2,radius*2);
         if (graphics2D!= null) graphics2D.fill(e);
+    }
+
+    public void drawFilledArc(double x,double y,double radius,int rotationAngel,int angel){
+        Arc2D.Double e= new Arc2D.Double(x-radius,y-radius,radius*2,radius*2,angel/2+rotationAngel,360-angel,Arc2D.PIE);
+        if(graphics2D!=null) graphics2D.fill(e);
     }
 
     /**
