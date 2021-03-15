@@ -11,4 +11,5 @@ public class SnakeParser implements Parser{
     public boolean getScannerResult(String input) {
         return false;
     }
+
 }

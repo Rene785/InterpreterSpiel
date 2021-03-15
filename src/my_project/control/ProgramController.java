@@ -3,6 +3,7 @@ package my_project.control;
 import KAGO_framework.control.ViewController;
 import my_project.model.KnebiParser;
 import my_project.model.Playground;
+import my_project.model.SnakeScanner;
 import my_project.view.InputGui;
 import my_project.view.MainGUI;
 
@@ -23,6 +24,8 @@ public class ProgramController {
     private KnebiParser knebiParser;
     private Playground playground;
     private boolean test;
+
+    private SnakeScanner snakeScanner;
 
     private InputGui inputGui;
 
@@ -49,9 +52,10 @@ public class ProgramController {
         // todo Eigener Code
         test=true;
         playground=new Playground();
-        inputGui = new InputGui();
+        inputGui = new InputGui(this);
         viewController.draw(playground);
         viewController.register(playground);
+        snakeScanner = new SnakeScanner();
         this.outputController= new OutputController(viewController);
         viewController.showScene(0);
 
@@ -91,6 +95,8 @@ public class ProgramController {
             // todo Hier können weitere Scanner aufgeführt werden.
             case 1:
                 return knebiParser.getScannerResult(input);
+            case 2:
+                return snakeScanner.scan(input);
 
             default: System.out.println("\nDebug-Info: Für diesen Index ist kein Scanner definiert!");
         }
@@ -133,5 +139,12 @@ public class ProgramController {
 
     public void playNo(){
         viewController.getSoundController().playSound("no");
+    }
+
+    public void scanAndParse(String input){
+        if(scanString(input,2) == true){
+            parseString(input, 0);
+        }
+
     }
 }
