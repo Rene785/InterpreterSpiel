@@ -3,6 +3,7 @@ package my_project.control;
 import KAGO_framework.control.ViewController;
 import my_project.model.KnebiParser;
 import my_project.model.Playground;
+import my_project.view.InputGui;
 import my_project.view.MainGUI;
 
 import java.awt.event.MouseEvent;
@@ -22,6 +23,8 @@ public class ProgramController {
     private KnebiParser knebiParser;
     private Playground playground;
     private boolean test;
+
+    private InputGui inputGui;
 
     /**
      * Konstruktor
@@ -46,6 +49,7 @@ public class ProgramController {
         // todo Eigener Code
         test=true;
         playground=new Playground();
+        inputGui = new InputGui();
         viewController.draw(playground);
         viewController.register(playground);
         this.outputController= new OutputController(viewController);
