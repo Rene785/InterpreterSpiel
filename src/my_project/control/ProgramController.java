@@ -25,8 +25,6 @@ public class ProgramController {
     private KnebiParser knebiParser;
     private Playground playground;
     private boolean test;
-
-    private SnakeScanner snakeScanner;
     private SnakeParser snakeParser;
 
     private InputGui inputGui;
@@ -57,7 +55,6 @@ public class ProgramController {
         inputGui = new InputGui(this);
         viewController.draw(playground);
         viewController.register(playground);
-        snakeScanner = new SnakeScanner();
         snakeParser=new SnakeParser();
         this.outputController= new OutputController(viewController);
         viewController.showScene(0);
@@ -99,7 +96,7 @@ public class ProgramController {
             case 1:
                 return knebiParser.getScannerResult(input);
             case 2:
-                return snakeScanner.scan(input);
+                return snakeParser.getScannerResult(input);
 
             default: System.out.println("\nDebug-Info: Für diesen Index ist kein Scanner definiert!");
         }
@@ -145,7 +142,7 @@ public class ProgramController {
     }
 
     public void scanAndParse(String input){
-        if(snakeScanner.scan(input)){
+        if(snakeParser.getScannerResult(input)){
             snakeParser.parse(input);
         }
 

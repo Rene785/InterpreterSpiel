@@ -46,9 +46,9 @@ public class SnakeScanner extends Scanner<String,String>{
                     }else return false;
                 }else return false;
             }else if(input.charAt(i) == '('){
-                this.tokenList.append(new Token(input.charAt(i),"KLAMMER"));
+                this.tokenList.append(new Token(input.charAt(i),"KLAMMERAUF"));
             }else if(input.charAt(i) == ')'){
-                this.tokenList.append(new Token(input.charAt(i),"KLAMMER"));
+                this.tokenList.append(new Token(input.charAt(i),"KLAMMERZU"));
             }else if(input.charAt(i) == '{'){
                 this.tokenList.append(new Token(input.charAt(i),"START"));
             }else if(input.charAt(i) == '}'){
