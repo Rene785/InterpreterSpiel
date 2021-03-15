@@ -30,11 +30,12 @@ public class OutputController {
 
     public void test(boolean b){
         if(b){
-            grow();
+            back();
             spreadFruits(5);
         }else{
-            turnRigth();
+            grow();
             move();
+            turnRigth();
             if(crashed()){
                 //System.out.println("Bum bum");
             }
@@ -42,7 +43,12 @@ public class OutputController {
     }
 
     public void spreadFruits(int amount){
-        if(amount>0) {
+        if(amount>-1) {
+            if(fruits!=null && fruits.length>0){
+                for(int i=0;i<fruits.length;i++){
+                    viewController.removeDrawable(fruits[i]);
+                }
+            }
             fruits = new Fruit[amount];
             for(int i=0;i<amount;i++){
                 fruits[i]=new Fruit(25+(int)(Math.random()*(WINDOW_WIDTH/50))*50,25+(int)(Math.random()*(WINDOW_HEIGHT/50))*50,"Apple");
@@ -69,6 +75,18 @@ public class OutputController {
                 caterpillar.getContent().setY(caterpillar.getContent().getY() - 50);//oben
                 break;
         }
+        if(caterpillar.getContent().getX()>WINDOW_WIDTH){
+            caterpillar.getContent().setX(25);
+        }
+        if(caterpillar.getContent().getX()<0){
+            caterpillar.getContent().setX(WINDOW_WIDTH-25);
+        }
+        if(caterpillar.getContent().getY()>WINDOW_HEIGHT){
+            caterpillar.getContent().setY(25);
+        }
+        if(caterpillar.getContent().getY()<0){
+            caterpillar.getContent().setY(WINDOW_HEIGHT-25);
+        }
         caterpillar.next();
         while(caterpillar.hasAccess()){
             double tX=caterpillar.getContent().getX();
@@ -78,6 +96,33 @@ public class OutputController {
             pX=tX;
             pY=tY;
             caterpillar.next();
+        }
+    }
+
+    public void back(){
+        caterpillar.toFirst();
+        Blok tmpBlok=caterpillar.getContent();
+        caterpillar.next();
+        while(caterpillar.hasAccess()){
+            tmpBlok.setX(caterpillar.getContent().getX());
+            tmpBlok.setY(caterpillar.getContent().getY());
+            tmpBlok=caterpillar.getContent();
+            caterpillar.next();
+        }
+        caterpillar.toFirst();
+        switch (caterpillar.getContent().getRotationAngel() % 360){
+            case 0:
+                tmpBlok.setX(tmpBlok.getX() - 50);//rechts
+                break;
+            case 180:
+                tmpBlok.setX(tmpBlok.getX() + 50);//links
+                break;
+            case 270:
+                tmpBlok.setY(tmpBlok.getY() - 50);//unten
+                break;
+            case 90:
+                tmpBlok.setY(tmpBlok.getY() + 50);//oben
+                break;
         }
     }
 

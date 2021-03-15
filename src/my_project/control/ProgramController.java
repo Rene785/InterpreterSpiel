@@ -3,6 +3,7 @@ package my_project.control;
 import KAGO_framework.control.ViewController;
 import my_project.model.KnebiParser;
 import my_project.model.Playground;
+import my_project.model.SnakeParser;
 import my_project.model.SnakeScanner;
 import my_project.view.InputGui;
 import my_project.view.MainGUI;
@@ -26,6 +27,7 @@ public class ProgramController {
     private boolean test;
 
     private SnakeScanner snakeScanner;
+    private SnakeParser snakeParser;
 
     private InputGui inputGui;
 
@@ -56,6 +58,7 @@ public class ProgramController {
         viewController.draw(playground);
         viewController.register(playground);
         snakeScanner = new SnakeScanner();
+        snakeParser=new SnakeParser();
         this.outputController= new OutputController(viewController);
         viewController.showScene(0);
 
@@ -142,8 +145,8 @@ public class ProgramController {
     }
 
     public void scanAndParse(String input){
-        if(scanString(input,2) == true){
-            parseString(input, 0);
+        if(snakeScanner.scan(input)){
+            snakeParser.parse(input);
         }
 
     }
