@@ -3,13 +3,18 @@ package my_project.control;
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
 import my_project.model.Blok;
+import my_project.model.Fruit;
 
-import java.awt.image.BufferedImage;
+import java.awt.*;
+
+import static my_project.Config.WINDOW_HEIGHT;
+import static my_project.Config.WINDOW_WIDTH;
 
 public class OutputController {
 
     private ViewController viewController;
     private List<Blok> caterpillar;
+    private Fruit[] fruits;
 
     public OutputController(ViewController viewController){
         this.viewController=viewController;
@@ -26,10 +31,23 @@ public class OutputController {
     public void test(boolean b){
         if(b){
             grow();
-            turnLeft();
+            spreadFruits(5);
         }else{
             turnRigth();
             move();
+            if(crashed()){
+                //System.out.println("Bum bum");
+            }
+        }
+    }
+
+    public void spreadFruits(int amount){
+        if(amount>0) {
+            fruits = new Fruit[amount];
+            for(int i=0;i<amount;i++){
+                fruits[i]=new Fruit(25+(int)(Math.random()*(WINDOW_WIDTH/50))*50,25+(int)(Math.random()*(WINDOW_HEIGHT/50))*50,"Apple");
+                viewController.draw(fruits[i]);
+            }
         }
     }
 
@@ -63,6 +81,20 @@ public class OutputController {
         }
     }
 
+    public boolean crashed(){
+        boolean answer=false;
+        caterpillar.toFirst();
+        double actX=caterpillar.getContent().getX();
+        double actY=caterpillar.getContent().getY();
+        caterpillar.next();
+        while(caterpillar.hasAccess() && !answer){
+            if(caterpillar.getContent().getX()==actX && caterpillar.getContent().getY()==actY){
+                answer=true;
+            }
+            caterpillar.next();
+        }
+        return answer;
+    }
     /**
      * Fügt einen neuen Block zur Raupenliste hinzu.
      */
