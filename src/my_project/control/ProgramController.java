@@ -73,7 +73,7 @@ public class ProgramController {
                 return knebiParser.parse(input);
             // todo Hier können weitere Parser aufgeführt werden
             case 1:
-                return knebiParser.parse(input);
+                return snakeParser.parse(input);
 
             default: System.out.println("\nDebug-Info: Für diesen Index ist kein Parser definiert!");
         }
@@ -142,9 +142,19 @@ public class ProgramController {
     }
 
     public void scanAndParse(String input){
-        if(snakeParser.getScannerResult(input)){
-            snakeParser.parse(input);
+        if(scanString(input,2)){
+            System.out.println("Scan erfolgreich");
+        }else{
+            System.out.println("Scan missglückt");
         }
+        if(parseString(input,1)){
+            System.out.println("Parse erfolgreich");
+        }else{
+            System.out.println("Parse missglückt");
+        }
+        /*if(snakeParser.getScannerResult(input)){
+            snakeParser.parse(input);
+        }*/
 
     }
 }

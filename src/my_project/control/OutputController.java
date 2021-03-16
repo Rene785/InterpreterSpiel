@@ -57,6 +57,16 @@ public class OutputController {
         }
     }
 
+
+    /**
+     * Falls der Kopf bzw. das erste Objekt vonder Liste caterpillar die selbe X/Y Koordinaten
+     * wie ein Objekt aus dem Array fruits, dann wird das Objekt der KLasse frutis gelöscht,
+     * nicht mehr gezeichnet und die Raupe wäxhst. grow() wird aufgerufen
+     */
+    public void eat(){
+
+    }
+
     public void move() {
         caterpillar.toFirst();
         double pX=caterpillar.getContent().getX();
