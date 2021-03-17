@@ -33,7 +33,9 @@ public class OutputController {
     public void test(boolean b){
         if(b){
             back();
-            spreadFruits(5);
+            if(inSicht(3)) {
+                spreadFruits(5);
+            }
         }else{
             grow();
             move();

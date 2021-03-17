@@ -5,13 +5,15 @@ import my_project.control.OutputController;
 public class Interpreter {
 
     private String status;
+    private boolean warteAufParameter;
     private OutputController outputController;
     private String output;
 
     public Interpreter(OutputController outputController){
         this.outputController=outputController;
-        status="do"; // do/check/doCond/jumpCond/readParam
+        status="do"; // do/check/jumpCond
         output="";
+
     }
 
     /**
@@ -20,7 +22,7 @@ public class Interpreter {
      * @param value
      */
     public void interpret(String type,String value){
-        if(status.equals("do")){
+        if(status.equals("do") || status.equals("doCond")){
             if(type.equals("BEFEHL")){
                 if(value.equals("vor")){
                     outputController.move();
@@ -45,6 +47,26 @@ public class Interpreter {
                 }else if(value.equals("fressen")){
                     outputController.eat();
                 }
+            }else if(type.equals("BEDINGUNG")){ // gemeint ist erstaml das if
+                status="check";
+            }
+
+        }else if(status.equals("check")){
+            if(type.equals("...")){ // gemeint ist die Bedingung selber
+                if(value.equals("inSicht")){
+                    warteAufParameter=true;
+                }
+            }else if(type.equals("PARAMETER") && warteAufParameter){ // gemeint ist das Symbol in den PArametern
+                warteAufParameter=false;
+                if(outputController.inSicht(Integer.valueOf(value))){
+                    status="do";
+                }else{
+                    status="jumpCond";
+                }
+            }
+        }else if(status.equals("jumpCond")){
+            if(type.equals("KLAMMERZU")){
+                status="do";
             }
         }
     }

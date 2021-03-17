@@ -80,9 +80,9 @@ public class SnakeScanner extends Scanner<String,String>{
                 }
             }
         }
+        System.out.println(debbugOutput);
         this.tokenList.append(new Token("#","NODATA"));
         tokenList.toFirst(); // WICHTIG!
-        System.out.println(debbugOutput);
         return true;
     }
 
