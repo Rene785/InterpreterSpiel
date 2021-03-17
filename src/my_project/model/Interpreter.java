@@ -10,7 +10,7 @@ public class Interpreter {
 
     public Interpreter(OutputController outputController){
         this.outputController=outputController;
-        status="do";
+        status="do"; // do/check/doCond/jumpCond/readParam
         output="";
     }
 
@@ -42,6 +42,8 @@ public class Interpreter {
                         status="verloren";
                         output="Kollision - ";
                     }
+                }else if(value.equals("fressen")){
+                    outputController.eat();
                 }
             }
         }

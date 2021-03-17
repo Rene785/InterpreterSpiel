@@ -30,7 +30,7 @@ public class InputGui {
        playButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               inputFromPlayer = textfield1.getText();
+               inputFromPlayer = textArea1.getText();
                pc.scanAndParse(inputFromPlayer);
            }
        });
