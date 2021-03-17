@@ -27,6 +27,7 @@ public class OutputController {
             caterpillar.next();
         }
         richtung = "rechts";
+        spreadFruits(5);
 
     }
 
@@ -134,17 +135,17 @@ public class OutputController {
             caterpillar.next();
         }
         caterpillar.toFirst();
-        switch (caterpillar.getContent().getRotationAngel() % 360){
-            case 0:
+        switch (caterpillar.getContent().getDirection()){
+            case "rechts":
                 tmpBlok.setX(tmpBlok.getX() - 50);//rechts
                 break;
-            case 180:
+            case "links":
                 tmpBlok.setX(tmpBlok.getX() + 50);//links
                 break;
-            case 270:
+            case "unten":
                 tmpBlok.setY(tmpBlok.getY() - 50);//unten
                 break;
-            case 90:
+            case "oben":
                 tmpBlok.setY(tmpBlok.getY() + 50);//oben
                 break;
         }
@@ -191,37 +192,40 @@ public class OutputController {
             return false;
         }
         caterpillar.toFirst();
-        for (int i = 0; i <= fruits.length; i++) {
+        String richtung=caterpillar.getContent().getDirection();
+        for (int i = 0; i < fruits.length; i++) {
             double n = 0;
             if (richtung.equals("rechts")) {
-                for (int j = 0; j < sichtweite; j++) {
+                for (int j = 1; j <= sichtweite; j++) {
                     n = n + 50;
-                    if (caterpillar.getContent().getX() + n == fruits[i].getX()) ;
-                    return true;
+                    if (caterpillar.getContent().getX() +j*50 == fruits[i].getX() && caterpillar.getContent().getY()==fruits[i].getY()) {
+                        return true;
+                    }
                 }
             }
-
             if (richtung.equals("links")) {
                 for (int j = 0; j < sichtweite; j++) {
                     n = n + 50;
-                    if (caterpillar.getContent().getX() - n == fruits[i].getX()) ;
-                    return true;
+                    if (caterpillar.getContent().getX() - n == fruits[i].getX() && caterpillar.getContent().getY()==fruits[i].getY()) {
+                        return true;
+                    }
                 }
             }
-
             if (richtung.equals("oben")) {
+
                 for (int j = 0; j < sichtweite; j++) {
                     n = n + 50;
-                    if (caterpillar.getContent().getY() - n == fruits[i].getY()) ;
-                    return true;
+                    if (caterpillar.getContent().getX()==fruits[i].getX() && caterpillar.getContent().getY() - n == fruits[i].getY()){
+                        return true;
+                    }
                 }
             }
-
-            if (richtung.equals("unten")) {
+            if (caterpillar.getContent().getX()==fruits[i].getX() && richtung.equals("unten")) {
                 for (int j = 0; j < sichtweite; j++) {
                     n = n + 50;
-                    if (caterpillar.getContent().getY() + n == fruits[i].getY()) ;
-                    return true;
+                    if (caterpillar.getContent().getY() + n == fruits[i].getY()) {
+                        return true;
+                    }
                 }
             }
         }

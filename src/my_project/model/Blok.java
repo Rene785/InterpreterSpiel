@@ -40,4 +40,19 @@ public class Blok extends GraphicalObject {
     public int getRotationAngel() {
         return rotationAngel;
     }
+
+    public String getDirection(){
+        switch (rotationAngel % 360){
+            case 0:
+                return "rechts";
+            case 180:
+                return "links";
+            case 270:
+                return "unten";
+            case 90:
+                return "oben";
+        }
+        return null;
+    }
+
 }
