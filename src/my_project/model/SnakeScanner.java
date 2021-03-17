@@ -72,7 +72,13 @@ public class SnakeScanner extends Scanner<String,String>{
             }else if(input.charAt(i) == '}'){
                 debbugOutput+=" } --> ";
                 this.tokenList.append(new Token(input.charAt(i),"ENDE"));
-            }else return false;
+            }else if(input.charAt(i) == 'i'){
+                if(i<input.length()-1){
+                    if(input.charAt(i) == 'f'){
+                        this.tokenList.append(new Token(input.substring(i,i+2),"VERZWEIGUNG"));
+                    }
+                }
+            }
         }
         this.tokenList.append(new Token("#","NODATA"));
         tokenList.toFirst(); // WICHTIG!
