@@ -15,6 +15,7 @@ public class OutputController {
     private ViewController viewController;
     private List<Blok> caterpillar;
     private Fruit[] fruits;
+    private String richtung;
 
     public OutputController(ViewController viewController){
         this.viewController=viewController;
@@ -25,6 +26,7 @@ public class OutputController {
             viewController.draw(caterpillar.getContent());
             caterpillar.next();
         }
+        richtung = "rechts";
 
     }
 
@@ -80,15 +82,19 @@ public class OutputController {
         switch (caterpillar.getContent().getRotationAngel() % 360){
             case 0:
                 caterpillar.getContent().setX(caterpillar.getContent().getX() + 50);//rechts
+                richtung = "rechts";
                 break;
             case 180:
                 caterpillar.getContent().setX(caterpillar.getContent().getX() - 50);//links
+                richtung = "links";
                 break;
             case 270:
                 caterpillar.getContent().setY(caterpillar.getContent().getY() + 50);//unten
+                richtung = "unten";
                 break;
             case 90:
                 caterpillar.getContent().setY(caterpillar.getContent().getY() - 50);//oben
+                richtung = "oben";
                 break;
         }
         if(caterpillar.getContent().getX()>WINDOW_WIDTH){
@@ -178,6 +184,52 @@ public class OutputController {
         caterpillar.getContent().turn("left");
     }
 
+    public boolean inSicht(int sichtweite) {
+        if(sichtweite<=0){
+            return false;
+        }
+        caterpillar.toFirst();
+        for (int i = 0; i <= fruits.length; i++) {
+            double n = 0;
+            if (richtung.equals("rechts")) {
+                for (int j = 0; j < sichtweite; j++) {
+                    n = n + 50;
+                    if (caterpillar.getContent().getX() + n == fruits[i].getX()) ;
+                    return true;
+                }
+            }
+
+            if (richtung.equals("links")) {
+                for (int j = 0; j < sichtweite; j++) {
+                    n = n + 50;
+                    if (caterpillar.getContent().getX() - n == fruits[i].getX()) ;
+                    return true;
+                }
+            }
+
+            if (richtung.equals("oben")) {
+                for (int j = 0; j < sichtweite; j++) {
+                    n = n + 50;
+                    if (caterpillar.getContent().getY() - n == fruits[i].getY()) ;
+                    return true;
+                }
+            }
+
+            if (richtung.equals("unten")) {
+                for (int j = 0; j < sichtweite; j++) {
+                    n = n + 50;
+                    if (caterpillar.getContent().getY() + n == fruits[i].getY()) ;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 
 }
+
+
+
+
+
