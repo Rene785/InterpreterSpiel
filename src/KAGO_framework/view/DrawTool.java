@@ -132,8 +132,13 @@ public class DrawTool {
         if (graphics2D!= null) graphics2D.fill(e);
     }
 
-    public void drawFilledArc(double x,double y,double radius,int rotationAngel,int angel){
-        Arc2D.Double e= new Arc2D.Double(x-radius,y-radius,radius*2,radius*2,angel/2+rotationAngel,360-angel,Arc2D.PIE);
+    public void drawFilledArc(double x,double y,double radius,int rotationAngel,int angel,boolean pie){
+        Arc2D.Double e;
+        if(pie){
+            e= new Arc2D.Double(x-radius,y-radius,radius*2,radius*2,angel/2+rotationAngel,360-angel,Arc2D.PIE);
+        }else {
+            e = new Arc2D.Double(x - radius, y - radius, radius * 2, radius * 2, angel / 2 + rotationAngel, 360 - angel, Arc2D.CHORD);
+        }
         if(graphics2D!=null) graphics2D.fill(e);
     }
 
