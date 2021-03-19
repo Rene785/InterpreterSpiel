@@ -23,6 +23,7 @@ public class ProgramController {
     private Playground playground;
     private boolean test;
     private SnakeParser snakeParser;
+    private Interpreter interpreter;
 
 
     private InputGui inputGui;
@@ -53,8 +54,9 @@ public class ProgramController {
         inputGui = new InputGui(this);
         viewController.draw(playground);
         viewController.register(playground);
-        snakeParser=new SnakeParser();
         this.outputController= new OutputController(viewController);
+        interpreter=new Interpreter(outputController);
+        snakeParser=new SnakeParser(interpreter);
         viewController.showScene(0);
 
 
@@ -150,6 +152,7 @@ public class ProgramController {
             System.out.println("Parse erfolgreich");
         }else{
             System.out.println("Parse missglückt");
+            System.out.println(snakeParser.getDebbugOutput());
         }
         /*if(snakeParser.getScannerResult(input)){
             snakeParser.parse(input);

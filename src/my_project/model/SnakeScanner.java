@@ -99,6 +99,9 @@ public class SnakeScanner extends Scanner<String,String>{
                         i+=6;
                     }
                 }
+            }else if(Character.isDigit(input.charAt(i))){
+                debbugOutput +=input.charAt(i)+ "  --> ";
+                this.tokenList.append(new Token(input.charAt(i), "ZAHL"));
             }
         }
         System.out.println(debbugOutput);

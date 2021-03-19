@@ -81,8 +81,8 @@ public class OutputController {
         for (int i = 0; i<= fruits.length-1; i++){
             if(fruits[i].collidesWith(caterpillar.getContent())){
                 viewController.removeDrawable(fruits[i]);
+                grow();
             }
-            grow();
         }
     }
 
