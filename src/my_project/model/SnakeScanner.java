@@ -90,6 +90,15 @@ public class SnakeScanner extends Scanner<String,String>{
                         i += 6;
                     } else return false;
                 } else return false;
+            }else if(input.charAt(i) == 's'){
+                if(i<input.length()-6){
+                    Token tmp = new Token(input.substring(i,i+7),"SCHLEIFE");
+                    if(tmp.getValue().equals("solange")){
+                        debbugOutput += tmp.getValue() + " --> ";
+                        this.tokenList.append(tmp);
+                        i+=6;
+                    }
+                }
             }
         }
         System.out.println(debbugOutput);

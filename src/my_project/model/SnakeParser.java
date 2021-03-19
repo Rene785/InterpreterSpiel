@@ -17,8 +17,9 @@ public class SnakeParser implements Parser{
             if(snakeScanner.getType().equals("START")){
                 debbugOutput+="Start --> ";
                 snakeScanner.nextToken();
-                b = verzweigung(snakeScanner);
-                b = befehl(snakeScanner);
+                b = schleife();
+                b = verzweigung();
+                b = befehl();
                 if(b){
                     if(snakeScanner.getType().equals("ENDE")){
                         snakeScanner.nextToken();
@@ -40,7 +41,7 @@ public class SnakeParser implements Parser{
         return snakeScanner.scan(input);
     }
 
-    public boolean befehl(SnakeScanner sC) {
+    public boolean befehl() {
         while(snakeScanner.getType().equals("BEFEHL")) {
             snakeScanner.nextToken();
             debbugOutput += "Befehl --> ";
@@ -55,7 +56,7 @@ public class SnakeParser implements Parser{
         }
         return true;
     }
-    public boolean verzweigung(SnakeScanner sC) {
+    public boolean verzweigung() {
         if(snakeScanner.getType().equals("VERZWEIGUNG")) {
             snakeScanner.nextToken();
             debbugOutput += "Verzweigung --> ";
@@ -71,16 +72,48 @@ public class SnakeParser implements Parser{
                         if (snakeScanner.getType().equals("START")) {
                             snakeScanner.nextToken();
                             debbugOutput += "Start --> ";
-                            verzweigung(snakeScanner);
-                            befehl(snakeScanner);
-                            if (snakeScanner.getType().equals("ENDE")) {
-                                snakeScanner.nextToken();
-                                debbugOutput += "Ende --> ";
-                            }
-                        }
-                    }
-                }
-            }
+                            boolean b;
+                            b = schleife();
+                            b = verzweigung();
+                            b = befehl();
+                            if(b) {
+                                if (snakeScanner.getType().equals("ENDE")) {
+                                    snakeScanner.nextToken();
+                                    debbugOutput += "Ende --> ";
+                                } else return false;
+                            }else return false;
+                        }else return false;
+                    }else return false;
+                }else return false;
+            }else return false;
+        }
+        return true;
+    }
+
+    public boolean schleife(){
+        if(snakeScanner.getType().equals("SCHLEIFE")){
+            snakeScanner.nextToken();
+            if(snakeScanner.getType().equals("BEFEHL")|| snakeScanner.getType().equals("ABFRAGE")){
+                snakeScanner.nextToken();
+                if(snakeScanner.getType().equals("KLAMMERAUF")){
+                    snakeScanner.nextToken();
+                    if(snakeScanner.getType().equals("KLAMMERZU")){
+                        snakeScanner.nextToken();
+                        if(snakeScanner.getType().equals("START")){
+                            snakeScanner.nextToken();
+                            boolean b;
+                            b = schleife();
+                            b = verzweigung();
+                            b = befehl();
+                            if(b) {
+                                if (snakeScanner.getType().equals("ENDE")) {
+                                    snakeScanner.nextToken();
+                                } else return false;
+                            }else return false;
+                        }else return false;
+                    }else return false;
+                }else return false;
+            }else return false;
         }
         return true;
     }
