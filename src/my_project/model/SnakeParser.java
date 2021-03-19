@@ -24,9 +24,45 @@ public class SnakeParser implements Parser{
                         debbugOutput+="Klammer auf --> ";
                         if(snakeScanner.getType().equals("KLAMMERZU")){
                             snakeScanner.nextToken();
-                            debbugOutput+="KLammer zu --> ";
+                            debbugOutput+="Klammer zu --> ";
                         }else return false;
                     }else return false;
+                }
+                while(snakeScanner.getType().equals("VERZWEIGUNG")){
+                    snakeScanner.nextToken();
+                    debbugOutput+="Verzweigung --> ";
+                    if(snakeScanner.getType().equals("ABFRAGE")){
+                        snakeScanner.nextToken();
+                        debbugOutput+="Abfrage --> ";
+                        if(snakeScanner.getType().equals("KLAMMERAUF")){
+                            snakeScanner.nextToken();
+                            debbugOutput += "Klammer auf --> ";
+                            if(snakeScanner.getType().equals("KLAMMERZU")){
+                                snakeScanner.nextToken();
+                                debbugOutput+="Klammer zu --> ";
+                                if(snakeScanner.getType().equals("START")){
+                                    snakeScanner.nextToken();
+                                    debbugOutput+="Start --> ";
+                                    while(snakeScanner.getType().equals("BEFEHL")) {
+                                        snakeScanner.nextToken();
+                                        debbugOutput += "Befehl --> ";
+                                        if (snakeScanner.getType().equals("KLAMMERAUF")) {
+                                            snakeScanner.nextToken();
+                                            debbugOutput += "Klammer auf --> ";
+                                            if (snakeScanner.getType().equals("KLAMMERZU")) {
+                                                snakeScanner.nextToken();
+                                                debbugOutput += "Klammer zu --> ";
+                                            } else return false;
+                                        } else return false;
+                                    }
+                                    if(snakeScanner.getType().equals("ENDE")){
+                                        snakeScanner.nextToken();
+                                        debbugOutput+="Ende --> ";
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 if(snakeScanner.getType().equals("ENDE")){
                     snakeScanner.nextToken();
