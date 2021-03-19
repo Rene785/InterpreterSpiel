@@ -240,6 +240,23 @@ public class OutputController {
         return false;
     }
 
+    public void neuStart(){
+        for (int i = 0; i< fruits.length-1; i++){
+            viewController.removeDrawable(fruits[i]);
+        }
+        fruits = new Fruit[5];
+        caterpillar.toFirst();
+        Blok tmp = caterpillar.getContent();
+        while(caterpillar.hasAccess()){
+            viewController.removeDrawable(caterpillar.getContent());
+            caterpillar.remove();
+        }
+        caterpillar.insert(tmp);
+        caterpillar.toFirst();
+        caterpillar.getContent().setX(225);
+        caterpillar.getContent().setY(225);
+    }
+
 
 }
 
