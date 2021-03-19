@@ -47,12 +47,12 @@ public class Interpreter {
                 }else if(value.equals("fressen")){
                     outputController.eat();
                 }
-            }else if(type.equals("BEDINGUNG")){ // gemeint ist erstaml das if
+            }else if(type.equals("VERZWEIGUNG")){
                 status="check";
             }
 
         }else if(status.equals("check")){
-            if(type.equals("...")){ // gemeint ist die Bedingung selber
+            if(type.equals("ABFRAGE")){
                 if(value.equals("inSicht")){
                     warteAufParameter=true;
                 }
