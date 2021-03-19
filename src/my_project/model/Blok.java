@@ -21,7 +21,7 @@ public class Blok extends GraphicalObject {
         super.draw(drawTool);
         if(this.head){
             drawTool.setCurrentColor(118,238,198,255);
-            drawTool.drawFilledArc(x,y,width, rotationAngel,60);
+            drawTool.drawFilledArc(x,y,width, rotationAngel,60,true);
         }else{
             drawTool.setCurrentColor(118,238,198,255);
             drawTool.drawFilledCircle(x,y,width);

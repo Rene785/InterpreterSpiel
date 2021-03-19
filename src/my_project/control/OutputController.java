@@ -56,7 +56,15 @@ public class OutputController {
             }
             fruits = new Fruit[amount];
             for(int i=0;i<amount;i++){
-                fruits[i]=new Fruit(25+(int)(Math.random()*(WINDOW_WIDTH/50))*50,25+(int)(Math.random()*(WINDOW_HEIGHT/50))*50,"Apple");
+                String fruitType="Apple";
+                double w=Math.random();
+                if(w>=0.67){
+                    fruitType="Bannana";
+                }else if(w>=0.34){
+                    fruitType="Strawberry";
+                }
+                System.out.println(w+" "+fruitType);
+                fruits[i]=new Fruit(25+(int)(Math.random()*(WINDOW_WIDTH/50))*50,25+(int)(Math.random()*(WINDOW_HEIGHT/50))*50,fruitType);
                 viewController.draw(fruits[i]);
             }
         }
