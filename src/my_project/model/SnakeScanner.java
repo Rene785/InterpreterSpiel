@@ -100,7 +100,7 @@ public class SnakeScanner extends Scanner<String,String>{
                     }
                 }
             }else if(Character.isDigit(input.charAt(i))){
-                debbugOutput +=input.charAt(i)+ "  --> ";
+                debugOutput +=input.charAt(i)+ "  --> ";
                 this.tokenList.append(new Token(input.charAt(i), "ZAHL"));
             }
         }
