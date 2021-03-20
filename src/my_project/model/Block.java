@@ -3,12 +3,12 @@ package my_project.model;
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
 
-public class Blok extends GraphicalObject {
+public class Block extends GraphicalObject {
 
     private boolean head;
     private int rotationAngel;
 
-    public Blok(boolean head,double x,double y){
+    public Block(boolean head, double x, double y){
         this.head =head;
         width=25;
         this.x=x;

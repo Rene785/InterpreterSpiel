@@ -2,10 +2,8 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
-import my_project.model.Blok;
+import my_project.model.Block;
 import my_project.model.Fruit;
-
-import java.awt.*;
 
 import static my_project.Config.WINDOW_HEIGHT;
 import static my_project.Config.WINDOW_WIDTH;
@@ -13,14 +11,14 @@ import static my_project.Config.WINDOW_WIDTH;
 public class OutputController {
 
     private ViewController viewController;
-    private List<Blok> caterpillar;
+    private List<Block> caterpillar;
     private Fruit[] fruits;
     private String richtung;
 
     public OutputController(ViewController viewController){
         this.viewController=viewController;
         caterpillar=new List<>();
-        caterpillar.append(new Blok(true,225,225));
+        caterpillar.append(new Block(true,225,225));
         caterpillar.toFirst();
         while(caterpillar.hasAccess()){
             viewController.draw(caterpillar.getContent());
@@ -40,7 +38,7 @@ public class OutputController {
         }else{
             grow();
             move();
-            turnRigth();
+            turnRight();
             if(crashed()){
                 //System.out.println("Bum bum");
             }
@@ -134,27 +132,27 @@ public class OutputController {
 
     public void back(){
         caterpillar.toFirst();
-        Blok tmpBlok=caterpillar.getContent();
+        Block tmpBlock =caterpillar.getContent();
         caterpillar.next();
         while(caterpillar.hasAccess()){
-            tmpBlok.setX(caterpillar.getContent().getX());
-            tmpBlok.setY(caterpillar.getContent().getY());
-            tmpBlok=caterpillar.getContent();
+            tmpBlock.setX(caterpillar.getContent().getX());
+            tmpBlock.setY(caterpillar.getContent().getY());
+            tmpBlock =caterpillar.getContent();
             caterpillar.next();
         }
         caterpillar.toFirst();
         switch (caterpillar.getContent().getDirection()){
             case "rechts":
-                tmpBlok.setX(tmpBlok.getX() - 50);//rechts
+                tmpBlock.setX(tmpBlock.getX() - 50);//rechts
                 break;
             case "links":
-                tmpBlok.setX(tmpBlok.getX() + 50);//links
+                tmpBlock.setX(tmpBlock.getX() + 50);//links
                 break;
             case "unten":
-                tmpBlok.setY(tmpBlok.getY() - 50);//unten
+                tmpBlock.setY(tmpBlock.getY() - 50);//unten
                 break;
             case "oben":
-                tmpBlok.setY(tmpBlok.getY() + 50);//oben
+                tmpBlock.setY(tmpBlock.getY() + 50);//oben
                 break;
         }
     }
@@ -178,14 +176,14 @@ public class OutputController {
      */
     public void grow(){
         caterpillar.toLast();
-        Blok blok = new Blok(false,caterpillar.getContent().getX()-50,caterpillar.getContent().getY());
-        caterpillar.append(blok);
-        viewController.draw(blok);
+        Block block = new Block(false,caterpillar.getContent().getX()-50,caterpillar.getContent().getY());
+        caterpillar.append(block);
+        viewController.draw(block);
         /*caterpillar.toLast();
         System.out.println(caterpillar.getContent().getX()+" "+caterpillar.getContent().getY());*/
     }
 
-    public void turnRigth(){
+    public void turnRight(){
         caterpillar.toFirst();
         caterpillar.getContent().turn("rigth");
     }
@@ -242,7 +240,7 @@ public class OutputController {
         }
         fruits = new Fruit[5];
         caterpillar.toFirst();
-        Blok tmp = caterpillar.getContent();
+        Block tmp = caterpillar.getContent();
         while(caterpillar.hasAccess()){
             viewController.removeDrawable(caterpillar.getContent());
             caterpillar.remove();

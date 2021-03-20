@@ -128,7 +128,7 @@ public class Interpreter {
                 output = "Kollision - ";
             }
         } else if (value.equals("rechts")) {
-            outputController.turnRigth();
+            outputController.turnRight();
             output = "Rechts - ";
         } else if (value.equals("links")) {
             outputController.turnLeft();
@@ -164,7 +164,7 @@ public class Interpreter {
                         output="Kollision - ";
                     }
                 }else if(value.equals("rechts")){
-                    outputController.turnRigth();
+                    outputController.turnRight();
                     output="Rechts - ";
                 }else if(value.equals("links")){
                     outputController.turnLeft();
