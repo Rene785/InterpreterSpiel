@@ -20,9 +20,7 @@ public class SnakeParser implements Parser{
                 debbugOutput+="Start --> ";
                 interpreter.addOrder(String.valueOf(snakeScanner.getValue()),String.valueOf(snakeScanner.getType()));
                 snakeScanner.nextToken();
-                b = schleife();
-                b = verzweigung();
-                b = befehl();
+                b=uebergang();
                 if(b){
                     if(snakeScanner.getType().equals("ENDE")){
                         interpreter.addOrder(String.valueOf(snakeScanner.getValue()),String.valueOf(snakeScanner.getType()));
@@ -41,13 +39,27 @@ public class SnakeParser implements Parser{
         return false;
     }
 
+    public boolean uebergang(){
+        if(snakeScanner.getType().equals("BEFEHL")){
+            return befehl();
+        }else if(snakeScanner.getType().equals("VERZWEIGUNG")){
+            return verzweigung();
+        }else if(snakeScanner.getType().equals("SCHLEIFE")){
+            return schleife();
+        }else if(snakeScanner.getType().equals("ENDE")){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean getScannerResult(String input) {
         return snakeScanner.scan(input);
     }
 
     public boolean befehl() {
-        while(snakeScanner.getType().equals("BEFEHL")) {
+        boolean b;
+        if(snakeScanner.getType().equals("BEFEHL")) {
             interpreter.addOrder(String.valueOf(snakeScanner.getValue()),String.valueOf(snakeScanner.getType()));
             snakeScanner.nextToken();
             debbugOutput += "Befehl --> ";
@@ -59,6 +71,10 @@ public class SnakeParser implements Parser{
                     interpreter.addOrder(String.valueOf(snakeScanner.getValue()),String.valueOf(snakeScanner.getType()));
                     snakeScanner.nextToken();
                     debbugOutput += "Klammer zu --> ";
+                    b=uebergang();
+                    if(b){
+                        return true;
+                    }else return false;
                 } else return false;
             } else return false;
         }
@@ -90,14 +106,13 @@ public class SnakeParser implements Parser{
                                 snakeScanner.nextToken();
                                 debbugOutput += "Start --> ";
                                 boolean b;
-                                b = schleife();
-                                b = verzweigung();
-                                b = befehl();
+                                b=uebergang();
                                 if (b) {
                                     if (snakeScanner.getType().equals("ENDE")) {
                                         interpreter.addOrder(String.valueOf(snakeScanner.getValue()),String.valueOf(snakeScanner.getType()));
                                         snakeScanner.nextToken();
                                         debbugOutput += "Ende --> ";
+                                        uebergang();
                                     } else return false;
                                 } else return false;
                             } else return false;
@@ -134,14 +149,13 @@ public class SnakeParser implements Parser{
                                 debbugOutput += "Start --> ";
                                 snakeScanner.nextToken();
                                 boolean b;
-                                b = schleife();
-                                b = verzweigung();
-                                b = befehl();
+                                b=uebergang();
                                 if (b) {
                                     if (snakeScanner.getType().equals("ENDE")) {
                                         interpreter.addOrder(String.valueOf(snakeScanner.getValue()),String.valueOf(snakeScanner.getType()));
                                         snakeScanner.nextToken();
                                         debbugOutput += "Ende --> ";
+                                        uebergang();
                                     } else return false;
                                 } else return false;
                             } else return false;

@@ -205,33 +205,29 @@ public class OutputController {
             double n = 0;
             if (richtung.equals("rechts")) {
                 for (int j = 1; j <= sichtweite; j++) {
-                    n = n + 50;
                     if (caterpillar.getContent().getX() +j*50 == fruits[i].getX() && caterpillar.getContent().getY()==fruits[i].getY()) {
                         return true;
                     }
                 }
             }
             if (richtung.equals("links")) {
-                for (int j = 0; j < sichtweite; j++) {
-                    n = n + 50;
-                    if (caterpillar.getContent().getX() - n == fruits[i].getX() && caterpillar.getContent().getY()==fruits[i].getY()) {
+                for (int j = 1; j <= sichtweite; j++) {
+                    if (caterpillar.getContent().getX() - j*50 == fruits[i].getX() && caterpillar.getContent().getY()==fruits[i].getY()) {
                         return true;
                     }
                 }
             }
             if (richtung.equals("oben")) {
 
-                for (int j = 0; j < sichtweite; j++) {
-                    n = n + 50;
-                    if (caterpillar.getContent().getX()==fruits[i].getX() && caterpillar.getContent().getY() - n == fruits[i].getY()){
+                for (int j = 1; j <= sichtweite; j++) {
+                    if (caterpillar.getContent().getX()==fruits[i].getX() && caterpillar.getContent().getY() - 50*j == fruits[i].getY()){
                         return true;
                     }
                 }
             }
-            if (caterpillar.getContent().getX()==fruits[i].getX() && richtung.equals("unten")) {
-                for (int j = 0; j < sichtweite; j++) {
-                    n = n + 50;
-                    if (caterpillar.getContent().getY() + n == fruits[i].getY()) {
+            if (richtung.equals("unten")) {
+                for (int j = 1; j <= sichtweite; j++) {
+                    if (caterpillar.getContent().getX()==fruits[i].getX() && caterpillar.getContent().getY() + j*50 == fruits[i].getY()) {
                         return true;
                     }
                 }

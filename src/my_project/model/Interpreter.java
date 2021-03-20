@@ -49,9 +49,11 @@ public class Interpreter {
                 notwEbene=Integer.MAX_VALUE;
                 switch (orderQueue.front()[1]) {//Selektiere Eingabentyp
                     case "START":
+                        System.out.println("1111");
                         ebene++;
                         break;
                     case "ENDE":
+                        System.out.println("2222");
                         ebene--;
                         if(firstLoopRun){//Falls eine Schleife das erste mal durchgegenagen wird:
                             // Die gespeicherten Befehle werden in einem Selbsaufruf der Methode
@@ -94,6 +96,20 @@ public class Interpreter {
                         startLoop=true;
                         break;
 
+                }
+            }else{
+                if(orderQueue.front()[1].equals("ENDE")){
+                    System.out.println("2222");
+                    ebene--;
+                    if(firstLoopRun){//Falls eine Schleife das erste mal durchgegenagen wird:
+                        // Die gespeicherten Befehle werden in einem Selbsaufruf der Methode
+                        // noch einmal durchgegnagen.
+                        firstLoopRun=false;
+                        ebenenStack.pop();
+                        tmp.enqueue(new String[]{orderQueue.front()[0],orderQueue.front()[1]});
+                        run(tmp);
+                        tmp=new Queue<>();
+                    }
                 }
             }
             if(firstLoopRun){
