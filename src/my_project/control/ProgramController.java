@@ -159,4 +159,8 @@ public class ProgramController {
         }*/
 
     }
+
+    public void reset(){
+        outputController.neuStart();
+    }
 }

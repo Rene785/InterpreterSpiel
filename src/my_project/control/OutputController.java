@@ -249,6 +249,7 @@ public class OutputController {
         caterpillar.toFirst();
         caterpillar.getContent().setX(225);
         caterpillar.getContent().setY(225);
+        viewController.draw(caterpillar.getContent());
     }
 
 

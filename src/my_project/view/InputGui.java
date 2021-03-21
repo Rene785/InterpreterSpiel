@@ -14,6 +14,7 @@ public class InputGui {
     private JScrollBar scrollBar1;
     private JScrollPane scrollPane;
     private JTextArea textArea1;
+    private JButton resetButton;
     String inputFromPlayer;
 
     public InputGui(ProgramController pc){
@@ -36,5 +37,11 @@ public class InputGui {
        });
 
        scrollPane.setHorizontalScrollBar(scrollBar1);
-   }
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pc.reset();
+            }
+        });
+    }
 }
