@@ -13,7 +13,6 @@ public class OutputController {
     private ViewController viewController;
     private List<Block> caterpillar;
     private Fruit[] fruits;
-    private String richtung;
 
     public OutputController(ViewController viewController){
         this.viewController=viewController;
@@ -24,7 +23,6 @@ public class OutputController {
             viewController.draw(caterpillar.getContent());
             caterpillar.next();
         }
-        richtung = "rechts";
         spreadFruits(5);
 
     }
@@ -61,7 +59,6 @@ public class OutputController {
                 }else if(w>=0.34){
                     fruitType="Strawberry";
                 }
-                System.out.println(w+" "+fruitType);
                 fruits[i]=new Fruit(25+(int)(Math.random()*(WINDOW_WIDTH/50))*50,25+(int)(Math.random()*(WINDOW_HEIGHT/50))*50,fruitType);
                 viewController.draw(fruits[i]);
             }
@@ -91,19 +88,15 @@ public class OutputController {
         switch (caterpillar.getContent().getRotationAngel() % 360){
             case 0:
                 caterpillar.getContent().setX(caterpillar.getContent().getX() + 50);//rechts
-                richtung = "rechts";
                 break;
             case 180:
                 caterpillar.getContent().setX(caterpillar.getContent().getX() - 50);//links
-                richtung = "links";
                 break;
             case 270:
                 caterpillar.getContent().setY(caterpillar.getContent().getY() + 50);//unten
-                richtung = "unten";
                 break;
             case 90:
                 caterpillar.getContent().setY(caterpillar.getContent().getY() - 50);//oben
-                richtung = "oben";
                 break;
         }
         if(caterpillar.getContent().getX()>WINDOW_WIDTH){

@@ -15,6 +15,8 @@ public class InputGui {
     private JScrollPane scrollPane;
     private JTextArea textArea1;
     private JButton resetButton;
+    private JSlider slider1;
+    private JTextField anzahlTextField;
     String inputFromPlayer;
 
     public InputGui(ProgramController pc){
@@ -41,6 +43,12 @@ public class InputGui {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pc.reset();
+            }
+        });
+        früchteHinzufügenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pc.addFruits(slider1.getValue());
             }
         });
     }

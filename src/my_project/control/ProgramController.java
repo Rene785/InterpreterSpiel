@@ -159,7 +159,9 @@ public class ProgramController {
         }*/
 
     }
-
+    public void addFruits(int amount){
+        outputController.spreadFruits(amount);
+    }
     public void reset(){
         outputController.neuStart();
     }

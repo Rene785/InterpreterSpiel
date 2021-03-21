@@ -1,33 +1,27 @@
 package my_project.model;
 
 import KAGO_framework.model.abitur.datenstrukturen.Queue;
-import KAGO_framework.model.abitur.datenstrukturen.Stack;
 import my_project.control.OutputController;
+
 
 public class Interpreter {
 
-    private String status;
-    private boolean warteAufParameter;
     private OutputController outputController;
     private String output;
-    private Stack<Queue<String[]>> streamStack;
-    private Stack<Integer> ebenenStack;
     private Queue<String[]> streamQueue;
-    private int ebene,notwEbene,loopCount;
-    private boolean startLoop,needParam;
+    private int ebene,notwEbene;
+    private boolean startLoop,stop,slowMode,pause;
 
     public Interpreter(OutputController outputController){
         this.outputController=outputController;
-        status="do"; // do/check/jumpCond/doLoop
-        output="";
-        streamStack =new Stack<>();
-        streamStack.push(new Queue<>());
+        output="Interpret -->";
         ebene=0;
         notwEbene= Integer.MAX_VALUE;
         startLoop=false;
-        loopCount=0;
-        ebenenStack=new Stack<>();
         streamQueue=new Queue<>();
+        stop=false;
+        slowMode=false;
+        pause=false;
 
     }
 
@@ -39,30 +33,28 @@ public class Interpreter {
 
     public void run(){
         run(streamQueue);
+        System.out.println(output);
     }
 
-    private void run(Queue<String[]> orderQueue){
-        boolean firstLoopRun=false;
-        Queue<String[]> tmp=new Queue<>();
-        while(!orderQueue.isEmpty()){// Solange die Schlange Eingaben enthält
-            if(ebene<=notwEbene) {  //Falls man die Eingabe nciht überspringen soll
-                notwEbene=Integer.MAX_VALUE;
+    private void run(Queue<String[]> orderQueue) {
+        boolean firstLoopRun = false;
+        Queue<String[]> tmp = new Queue<>();
+        while (!orderQueue.isEmpty() && !stop) {// Solange die Schlange Eingaben enthält
+            if (ebene <= notwEbene) {  //Falls man die Eingabe nciht überspringen soll
+                notwEbene = Integer.MAX_VALUE;
                 switch (orderQueue.front()[1]) {//Selektiere Eingabentyp
                     case "START":
-                        System.out.println("1111");
                         ebene++;
                         break;
                     case "ENDE":
-                        System.out.println("2222");
                         ebene--;
-                        if(firstLoopRun){//Falls eine Schleife das erste mal durchgegenagen wird:
+                        if (firstLoopRun) {//Falls eine Schleife das erste mal durchgegenagen wird:
                             // Die gespeicherten Befehle werden in einem Selbsaufruf der Methode
                             // noch einmal durchgegnagen.
-                            firstLoopRun=false;
-                            ebenenStack.pop();
-                            tmp.enqueue(new String[]{orderQueue.front()[0],orderQueue.front()[1]});
+                            firstLoopRun = false;
+                            tmp.enqueue(new String[]{orderQueue.front()[0], orderQueue.front()[1]});
                             run(tmp);
-                            tmp=new Queue<>();
+                            tmp = new Queue<>();
                         }
                         break;
                     case "BEFEHL":
@@ -74,135 +66,75 @@ public class Interpreter {
                         break;
                     case "ZAHL":
                         System.out.println(outputController.inSicht(Integer.valueOf(orderQueue.front()[0])));
-                            if (outputController.inSicht(Integer.valueOf(orderQueue.front()[0]))) {
-                                if (startLoop) {
-                                    startLoop=false;
-                                    loopCount++;
-                                    firstLoopRun=true;
-                                    ebenenStack.push(ebene);
-                                }//Falls eine Abfrage in einer Verzweigung true zurück gibt,
-                                // werden die restlichen befehle norml durchlaufen
-                            } else {
-                                notwEbene = ebene;
-                                orderQueue.dequeue();
-                                orderQueue.dequeue();
-                                ebene++;
-                                startLoop=false;
-                            }
+                        if (outputController.inSicht(Integer.valueOf(orderQueue.front()[0]))) {
+                            if (startLoop) {
+                                startLoop = false;
+                                firstLoopRun = true;
+                            }//Falls eine Abfrage in einer Verzweigung true zurück gibt,
+                            // werden die restlichen befehle norml durchlaufen
+                        } else {
+                            notwEbene = ebene;
+                            orderQueue.dequeue();
+                            orderQueue.dequeue();
+                            ebene++;
+                            startLoop = false;
+                        }
 
                         break;
                     case "SCHLEIFE":
-                        needParam=true;
-                        startLoop=true;
+                        startLoop = true;
                         break;
 
                 }
-            }else{
-                if(orderQueue.front()[1].equals("ENDE")){
-                    System.out.println("2222");
+            } else {
+                if (orderQueue.front()[1].equals("ENDE")) {
                     ebene--;
-                    if(firstLoopRun){//Falls eine Schleife das erste mal durchgegenagen wird:
+                    if (firstLoopRun) {//Falls eine Schleife das erste mal durchgegenagen wird:
                         // Die gespeicherten Befehle werden in einem Selbsaufruf der Methode
                         // noch einmal durchgegnagen.
-                        firstLoopRun=false;
-                        ebenenStack.pop();
-                        tmp.enqueue(new String[]{orderQueue.front()[0],orderQueue.front()[1]});
+                        firstLoopRun = false;
+                        tmp.enqueue(new String[]{orderQueue.front()[0], orderQueue.front()[1]});
                         run(tmp);
-                        tmp=new Queue<>();
+                        tmp = new Queue<>();
                     }
                 }
             }
-            if(firstLoopRun){
-                tmp.enqueue(new String[]{orderQueue.front()[0],orderQueue.front()[1]});
+            if (firstLoopRun) {
+                tmp.enqueue(new String[]{orderQueue.front()[0], orderQueue.front()[1]});
             }
             orderQueue.dequeue();
         }
-    }
 
+        if (stop) {
+            stop = false;
+            outputController.neuStart();
+            streamQueue = new Queue<>();
+        }
+    }
     private void execute(String value) {
         if (value.equals("vor")) {
             outputController.move();
-            output = "Vorne - ";
+            output += "Vorne - ";
             if (outputController.crashed()) {
-                status = "verloren";
-                output = "Kollision - ";
+                output += "Kollision - ";
+                stop=true;
             }
         } else if (value.equals("rechts")) {
             outputController.turnRight();
-            output = "Rechts - ";
+            output += "Rechts - ";
         } else if (value.equals("links")) {
             outputController.turnLeft();
-            output = "Links - ";
+            output += "Links - ";
         } else if (value.equals("zurueck")) {
             outputController.back();
-            output = "Zurück - ";
+            output += "Zurück - ";
             if (outputController.crashed()) {
-                status = "verloren";
-                output = "Kollision - ";
+                output += "Kollision - ";
+                stop=true;
             }
         } else if (value.equals("fressen")) {
             outputController.eat();
         }
-
     }
-
-
-
-    /**
-     * Wird vom Parser nach jedem einzelnen Token aufgerufen.
-     * @param type
-     * @param value
-     */
-    public void interpret(String type,String value){
-        if(status.equals("do")){
-            if(type.equals("BEFEHL")){
-                if(value.equals("vor")){
-                    outputController.move();
-                    output="Vorne - ";
-                    if(outputController.crashed()){
-                        status="verloren";
-                        output="Kollision - ";
-                    }
-                }else if(value.equals("rechts")){
-                    outputController.turnRight();
-                    output="Rechts - ";
-                }else if(value.equals("links")){
-                    outputController.turnLeft();
-                    output="Links - ";
-                }else if(value.equals("zurück")){
-                    outputController.back();
-                    output="Zurück - ";
-                    if(outputController.crashed()){
-                        status="verloren";
-                        output="Kollision - ";
-                    }
-                }else if(value.equals("fressen")){
-                    outputController.eat();
-                }
-            }else if(type.equals("VERZWEIGUNG")){
-                status="check";
-            }
-
-        }else if(status.equals("check")){
-            if(type.equals("ABFRAGE")){
-                if(value.equals("inSicht")){
-                    warteAufParameter=true;
-                }
-            }else if(type.equals("PARAMETER") && warteAufParameter){ // wenn der Parser auf Syntax prüft, ist Paramteter notwendig ?
-                warteAufParameter=false;
-                if(outputController.inSicht(Integer.valueOf(value))){
-                    status="do";
-                }else{
-                    status="jumpCond";
-                }
-            }
-        }else if(status.equals("jumpCond")){
-            if(type.equals("KLAMMERZU")){
-                status="do";
-            }
-        }
-    }
-    //TODO "Verloren" weiter ausbauen. Der Parser soll in diesem Fall seine Handlung abbrechen.
-
 
 }
