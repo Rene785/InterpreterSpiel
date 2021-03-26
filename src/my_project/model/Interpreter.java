@@ -67,12 +67,11 @@ public class Interpreter {
                     case "ZAHL":
                         System.out.println(outputController.inSicht(Integer.valueOf(orderQueue.front()[0])));
                         if (outputController.inSicht(Integer.valueOf(orderQueue.front()[0]))) {
-                            if (startLoop) {
-                                startLoop = false;
-                                firstLoopRun = true;
-                            }//Falls eine Abfrage in einer Verzweigung true zurück gibt,
+                           //Falls eine Abfrage in einer Verzweigung true zurück gibt,
                             // werden die restlichen befehle norml durchlaufen
                         } else {
+                            firstLoopRun=false;
+                            tmp=new Queue<>();
                             notwEbene = ebene;
                             orderQueue.dequeue();
                             orderQueue.dequeue();
@@ -82,7 +81,7 @@ public class Interpreter {
 
                         break;
                     case "SCHLEIFE":
-                        startLoop = true;
+                        firstLoopRun = true;
                         break;
 
                 }
